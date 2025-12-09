@@ -3,5 +3,8 @@ import { userController } from "./user.controller";
 import verify from "../../middleware/verify";
 
 const router = Router()
-        router.post('/' , verify, userController.createUser )
+router.post('/' , userController.createUser )
+router.get('/',userController.getAllUser )
+
+
 export const userRoute = router

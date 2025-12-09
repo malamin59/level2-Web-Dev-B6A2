@@ -10,7 +10,14 @@ const createUserIntoDB = async(payload: Record<string, unknown>) =>{
 }
 
 
+const getAllUserIntoDB = async() =>{
+    const result = await pool.query(`SELECT name, email ,age, created_at, updated_at FROM users`) 
+        return result
+}
+
+
 // export here
 export const userServices = {
     createUserIntoDB,
+    getAllUserIntoDB
 }
