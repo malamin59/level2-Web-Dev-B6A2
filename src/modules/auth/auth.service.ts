@@ -22,10 +22,17 @@ if(!matchPassword) {
 const jwtPayload = {
 id : user.rows[0].id,
 name : user.rows[0].name,
-email : user.rows[0].email
+email : user.rows[0].email,
+role : user.rows[0].role
 }
-const secret = "781c3b182eb28801d5dc95fa3065e26a08e8e1d5ee1249c83750879f72d897c3832b2abd701162f0ab141afe4c36d1944fcf208b4fecd3b42e22d4a8253362ee"
-const token = jwt.sign(jwtPayload, secret, {expiresIn : "7d"})
+const secret = process.env.SECRET
+
+
+// if(!secret) {
+//   throw new Error("JWT secret not defined in environment variables");
+// }
+
+const token = jwt.sign(jwtPayload, secret as string, {expiresIn : "7d"}) 
 // delete user.rows[0].password
 
     return {token, user: user.rows[0]}

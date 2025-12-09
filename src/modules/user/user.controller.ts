@@ -37,7 +37,29 @@ const getAllUser = async (req: Request, res : Response) =>{
 
 
 
+
+const getSingleUser = async (req: Request, res : Response) =>{
+  try {
+    const email =  req.user!.email
+     const result = await userServices.getSingleUserIntoDB(email)
+   return  res.status(201).json({
+        success: true,  
+        message : "user created",
+        data : result.rows,
+    })
+  } catch (error : any) {
+  res.status(500).json({
+    success: false ,
+    message: error.message
+  })
+  }
+    
+}
+
+
+
 export const userController = {
     createUser,
-    getAllUser
+    getAllUser,
+    getSingleUser
 }
