@@ -8,6 +8,8 @@ const router = Router()
 router.post('/' , userController.createUser )
 router.get('/', auth(Roles.admin), userController.getAllUser )
 router.get('/singleUser', auth(Roles.user), userController.getSingleUser )
+// router.get('/', auth(), userController.getAllUser )
+// router.get('/singleUser', auth(), userController.getSingleUser )
 
     
 export const userRoute = router

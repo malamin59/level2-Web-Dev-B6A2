@@ -15,9 +15,9 @@ if(!token) {
 }
 const secretToken = process.env.SECRET
 
-if(!secretToken) {
-      throw new Error("JWT secret not defined in environment variables");
-}
+  if(!secretToken) {
+        throw new Error("JWT secret not defined in environment variables");
+  }
 const decoded = jwt.verify(token , secretToken, ) as JwtPayload
 console.log(decoded)
 const user =  await pool.query(`
