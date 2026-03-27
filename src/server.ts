@@ -1,9 +1,7 @@
 import express, { Request , Response} from "express";
-
 import { userRoute } from "./modules/user/user.route";
 import { initDB } from "./database/db";
 import { authRoute } from "./modules/auth/auth.route";
-import auth from "./middleware/auth";
 import dotenv from "dotenv"
 dotenv.config()
 const app = express();
@@ -14,7 +12,7 @@ app.use(express.json())
 initDB()
 
 /* Create a post route  */
-app.use('/api/v1/users', userRoute)
+app.use('/api/v1/users' , userRoute)
 
 // AUTH ROUTE
 app.use('/api/v1/auth',  authRoute)

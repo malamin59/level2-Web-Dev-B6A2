@@ -3,9 +3,8 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { pool } from "../database/db";
 const auth = (...roles : ('admin' | 'user')[]) =>{
 
-  console.log("get role from auth page . user role is ---->>", 
-    roles);
-  
+console.log(roles)
+
  return async(req: Request, res: Response,next: NextFunction) =>{
 const authHeader = req.headers.authorization;
 
