@@ -27,13 +27,15 @@ role : user.rows[0].role
 }
 const secret = process.env.SECRET
 
+console.log("secret is here --->>",secret)
 
-// if(!secret) {
-//   throw new Error("JWT secret not defined in environment variables");
-// }
+if(!secret) {
+  throw new Error("JWT secret not defined in environment variables");
+}
 
 const token = jwt.sign(jwtPayload, secret as string, {expiresIn : "7d"}) 
-// delete user.rows[0].password
+delete user.rows[0].password
+console.log("token is here ----->", token)
 
     return {token, user: user.rows[0]}
 
