@@ -7,9 +7,9 @@ import { Roles } from "../auth/auth.constant";
 const router = Router()
 router.post('/' , userController.createUser )
 router.get('/', auth(Roles.admin), userController.getAllUser )
-router.get('/singleUser', auth(Roles.user), userController.getSingleUser )
-// router.get('/', auth(), userController.getAllUser )
-// router.get('/singleUser', auth(), userController.getSingleUser )
+router.get('/singleUser', auth(Roles.customer), userController.getSingleUser )
+router.get('/singleUserById/:id', auth(Roles.customer), userController.getSingleUserById )
+
 
     
 export const userRoute = router

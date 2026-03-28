@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { userServices } from "./user.service";
+import { getUserByEmail, getUserById, userServices } from "./user.service";
 const createUser = async (req: Request, res : Response) =>{
   try {
      const result = await userServices.createUserIntoDB(req.body)
@@ -57,9 +57,36 @@ const getSingleUser = async (req: Request, res : Response) =>{
 }
 
 
+export const getSingleUserById = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const user = await userServices.getSingleUserById(id as string);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    res.json({
+      success: true,
+      data: user,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
+  }
+};
+
 
 export const userController = {
     createUser,
     getAllUser,
-    getSingleUser
+    getSingleUser,
+    getSingleUserById
 }

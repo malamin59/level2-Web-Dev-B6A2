@@ -18,10 +18,44 @@ const getAllUserIntoDB = async () => {
 
 const getSingleUserIntoDB = async (email: string) => {
   const result = await pool.query(
-    `SELECT name, email , created_at FROM  where email =$1`,
+    `SELECT name, email , created_at FROM users where email =$1`,
     [email],
   );
   return result;
+};
+
+
+
+export const getUserById = async (id: string) => {
+  const result = await pool.query(
+    `SELECT id, name, email, role, created_at 
+     FROM users 
+     WHERE id = $1`,
+    [id]
+  );
+
+  return result.rows[0];
+};
+
+export const getUserByEmail = async (email: string) => {
+  const result = await pool.query(
+    `SELECT id, name, email, role, created_at 
+     FROM users 
+     WHERE email = $1`,
+    [email]
+  );
+
+  return result.rows[0];
+}
+
+
+export const getSingleUserById = async (id: string) => {
+  const result = await pool.query(
+    "SELECT id, name, email, role FROM users WHERE id = $1",
+    [id]
+  );
+
+  return result.rows[0];
 };
 
 // export here
@@ -29,4 +63,5 @@ export const userServices = {
   createUserIntoDB,
   getAllUserIntoDB,
   getSingleUserIntoDB,
+  getSingleUserById
 };
