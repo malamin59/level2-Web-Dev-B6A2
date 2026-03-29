@@ -22,9 +22,31 @@ const createVehiclesIntoDb = async (payload: Record<string, unknown>) => {
   return result.rows[0];
 };
 
+// get all vehicles
+const getAllVehiclesIntoDb = async() =>{
+  const result = await pool.query(`
+    SELECT id , vehicle_name, type, registration_number ,daily_rent_price , availability_status FROM vehicles
+      `)
+      return result
+} 
+
+
+export const getSpecificVehicleById = async (id: string) => {
+  const result = await pool.query(
+    ` SELECT id , vehicle_name, type, registration_number ,daily_rent_price , availability_status FROM vehicles
+     WHERE id = $1`,
+    [id]
+  );
+
+  return result.rows[0];
+};
+
+
 
 
 
 export const vehiclesServices = {
-    createVehiclesIntoDb
+    createVehiclesIntoDb, 
+    getAllVehiclesIntoDb,
+    getSpecificVehicleById
 }
