@@ -1,15 +1,16 @@
-import {Router } from "express";
+import { Router } from "express";
 import { userController } from "./user.controller";
 import auth from "../../middleware/auth";
 import { Roles } from "../auth/auth.constant";
 
+const router = Router();
 
-const router = Router()
-router.post('/' , userController.createUser )
-router.get('/', auth(Roles.admin), userController.getAllUser )
-router.get('/singleUser', auth(Roles.customer), userController.getSingleUser )
-router.get('/singleUserById/:id', auth(Roles.customer), userController.getSingleUserById )
+// Public route
+router.post('/', userController.createUser);
 
+// Protected routes
+router.get('/', auth(Roles.admin), userController.getAllUser);
+router.get('/singleUser', auth(Roles.customer), userController.getSingleUser);
+router.get('/singleUserById/:id', auth(Roles.customer), userController.getSingleUserById);
 
-    
-export const userRoute = router
+export const userRoute = router;

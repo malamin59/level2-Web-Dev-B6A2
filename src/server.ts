@@ -3,6 +3,7 @@ import { userRoute } from "./modules/user/user.route";
 import { initDB } from "./database/db";
 import { authRoute } from "./modules/auth/auth.route";
 import dotenv from "dotenv"
+import { VehiclesRoute } from "./modules/Vehicles/vehicles.route";
 dotenv.config()
 const app = express();
 const port = 5000
@@ -16,6 +17,10 @@ app.use('/api/v1/users' , userRoute)
 
 // AUTH ROUTE
 app.use('/api/v1/auth',  authRoute)
+
+// VEHICLES ROUTE
+app.use('/api/v1/vehicles', VehiclesRoute )
+
 
 app.get('/' , (req : Request, res : Response) =>{
 res.status(200).json({
