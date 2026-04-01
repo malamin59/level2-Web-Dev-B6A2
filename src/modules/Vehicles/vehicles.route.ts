@@ -9,6 +9,7 @@ router.post('/', auth(Roles.admin), vehiclesController.createVehicles);
 router.get('/', auth(Roles.admin, Roles.customer), vehiclesController.getAllVehicles);
 router.get('/:vehicleId', auth(Roles.admin, Roles.customer), vehiclesController.getSpecificVehicle);
 router.put('/:vehicleId', auth(Roles.admin) , vehiclesController.updateVehicles);
+router.delete('/:vehicleId', auth(Roles.admin) , vehiclesController.deleteVehicle);
 
 
 

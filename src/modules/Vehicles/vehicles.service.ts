@@ -1,4 +1,4 @@
-import { pool } from "../../database/db"
+import { pool } from "../../database/db";
 
 const createVehiclesIntoDb = async (payload: Record<string, unknown>) => {
   const {
@@ -16,35 +16,37 @@ const createVehiclesIntoDb = async (payload: Record<string, unknown>) => {
     VALUES ($1, $2, $3, $4, $5)
     RETURNING *;
     `,
-    [vehicle_name, type, registration_number, daily_rent_price, availability_status]
+    [
+      vehicle_name,
+      type,
+      registration_number,
+      daily_rent_price,
+      availability_status,
+    ],
   );
 
   return result.rows[0];
 };
 
 // get all vehicles
-const getAllVehiclesIntoDb = async() =>{
+const getAllVehiclesIntoDb = async () => {
   const result = await pool.query(`
     SELECT id , vehicle_name, type, registration_number ,daily_rent_price , availability_status FROM vehicles
-      `)
-      return result
-} 
-
+      `);
+  return result;
+};
 
 export const getSpecificVehicleById = async (id: string) => {
   const result = await pool.query(
     ` SELECT id , vehicle_name, type, registration_number ,daily_rent_price , availability_status FROM vehicles
      WHERE id = $1`,
-    [id]
+    [id],
   );
 
   return result.rows[0];
 };
 
-const updateVehicleIntoDB = async (
-  vehicleId: string,
-  payload: any
-) => {
+const updateVehicleIntoDB = async (vehicleId: string, payload: any) => {
   const fields = [];
   const values = [];
   let index = 1;
@@ -73,12 +75,28 @@ const updateVehicleIntoDB = async (
   return result.rows[0];
 };
 
-
-
+// delete vehicles
+const deleteVehicleFromDB = async (vehicleId: string) => {
+ const bookingCheckQuery = `
+  SELECT * FROM bookings
+  WHERE vehicle_id = $1;
+`;
+  const bookingResult = await pool.query(bookingCheckQuery, [vehicleId]);
+  if (bookingResult.rows.length > 0) {
+  }
+  const deleteQuery = `
+    DELETE FROM vehicles
+    WHERE id = $1
+    RETURNING *;
+  `;
+  const result = await pool.query(deleteQuery, [vehicleId]);
+  return result.rows[0];
+};
 
 export const vehiclesServices = {
-    createVehiclesIntoDb, 
-    getAllVehiclesIntoDb,
-    getSpecificVehicleById,
-    updateVehicleIntoDB
-}
+  createVehiclesIntoDb,
+  getAllVehiclesIntoDb,
+  getSpecificVehicleById,
+  updateVehicleIntoDB,
+  deleteVehicleFromDB,
+};
