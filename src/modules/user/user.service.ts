@@ -58,10 +58,40 @@ export const getSingleUserById = async (id: string) => {
   return result.rows[0];
 };
 
+const updateUserIntoDB = async (userId: string, payload: any) => {
+  const fields = [];
+  const values = [];
+  let index = 1;
+
+  for (const key in payload) {
+    fields.push(`${key} = $${index}`);
+    values.push(payload[key]);
+    index++;
+  }
+
+  if (fields.length === 0) {
+    throw new Error("No fields provided");
+  }
+
+  const query = `
+    UPDATE users
+    SET ${fields.join(", ")}
+    WHERE id = $${index}
+    RETURNING id, name, email, role, phone, created_at;
+  `;
+
+  values.push(userId);
+
+  const result = await pool.query(query, values);
+
+  return result.rows[0];
+};
+
 // export here
 export const userServices = {
   createUserIntoDB,
   getAllUserIntoDB,
   getSingleUserIntoDB,
-  getSingleUserById
+  getSingleUserById,
+  updateUserIntoDB
 };
