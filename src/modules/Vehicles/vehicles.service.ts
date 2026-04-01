@@ -41,6 +41,37 @@ export const getSpecificVehicleById = async (id: string) => {
   return result.rows[0];
 };
 
+const updateVehicleIntoDB = async (
+  vehicleId: string,
+  payload: any
+) => {
+  const fields = [];
+  const values = [];
+  let index = 1;
+
+  for (const key in payload) {
+    fields.push(`${key} = $${index}`);
+    values.push(payload[key]);
+    index++;
+  }
+
+  if (fields.length === 0) {
+    throw new Error("No fields provided to update");
+  }
+
+  const query = `
+    UPDATE vehicles
+    SET ${fields.join(", ")}
+    WHERE id = $${index}
+    RETURNING *;
+  `;
+
+  values.push(vehicleId);
+
+  const result = await pool.query(query, values);
+
+  return result.rows[0];
+};
 
 
 
@@ -48,5 +79,6 @@ export const getSpecificVehicleById = async (id: string) => {
 export const vehiclesServices = {
     createVehiclesIntoDb, 
     getAllVehiclesIntoDb,
-    getSpecificVehicleById
+    getSpecificVehicleById,
+    updateVehicleIntoDB
 }
