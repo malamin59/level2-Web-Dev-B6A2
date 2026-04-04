@@ -3,17 +3,13 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { pool } from "../database/db";
 
 const auth = (...roles: ("admin" | "customer")[]) => {
-console.log(roles)
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       const authHeader = req.headers.authorization;
-
       if (!authHeader) {
         return res.status(401).json({ message: "No token provided" });
       }
-
       let token;
-
       if (authHeader?.startsWith("Bearer ")) {
         token = authHeader.split(" ")[1];
       } else {
@@ -27,11 +23,10 @@ console.log(roles)
       }
 
       const decoded = jwt.verify(token as string, secretToken) as JwtPayload;
-        
-      const user = await pool.query(
-        `SELECT * FROM users WHERE email=$1`,
-        [decoded.email]
-      );
+
+      const user = await pool.query(`SELECT * FROM users WHERE email=$1`, [
+        decoded.email,
+      ]);
 
       if (user.rows.length === 0) {
         return res.status(404).json({ message: "User not found" });
@@ -44,10 +39,7 @@ console.log(roles)
       (req as any).user = decoded;
 
       next();
-    } 
-    
-    
-    catch (error) {
+    } catch (error) {
       return res.status(401).json({ message: "Unauthorized access" });
     }
   };

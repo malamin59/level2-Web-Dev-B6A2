@@ -4,6 +4,7 @@ import { initDB } from "./database/db";
 import { authRoute } from "./modules/auth/auth.route";
 import dotenv from "dotenv"
 import { VehiclesRoute } from "./modules/Vehicles/vehicles.route";
+import { bookingRoutes } from "./modules/Bookings/booking.route";
 dotenv.config()
 const app = express();
 const port = 5000
@@ -20,6 +21,7 @@ app.use('/api/v1/auth',  authRoute)
 
 // VEHICLES ROUTE
 app.use('/api/v1/vehicles', VehiclesRoute )
+app.use('/api/v1/bookings', bookingRoutes )
 
 
 app.get('/' , (req : Request, res : Response) =>{
