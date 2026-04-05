@@ -13,11 +13,11 @@ app.use(express.json())
 // call the initDB
 initDB()
 
+// AUTH ROUTE
+app.use('/api/v1/auth',  authRoute)
 /* Create a post route  */
 app.use('/api/v1/users' , userRoute)
 
-// AUTH ROUTE
-app.use('/api/v1/auth',  authRoute)
 
 // VEHICLES ROUTE
 app.use('/api/v1/vehicles', VehiclesRoute )
