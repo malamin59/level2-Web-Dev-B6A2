@@ -6,7 +6,7 @@ import { Roles } from "../auth/auth.constant";
 const router = Router();
 
 // Public route
-router.post("/", userController.createUser);
+router.post("/signup", userController.createUser);
 
 // Protected routes
 router.get("/", auth(Roles.admin), userController.getAllUser);
